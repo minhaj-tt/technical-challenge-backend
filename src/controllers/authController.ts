@@ -6,6 +6,7 @@ import multer from "multer";
 import path from "path";
 import moment from "moment";
 import Stripe from "stripe";
+import { sendVerificationEmail } from "../services/emailService";
 
 declare module "express-session" {
   interface SessionData {
@@ -79,19 +80,30 @@ export const register = [
         return;
       }
 
-      console.log("user", user);
-
-      res.status(201).json({
-        message: "User registered successfully",
-        user: {
-          id: user.id,
-          username: user.username,
-          email: user.email,
-          image: user.image,
-          subscription: user.subscription,
-          trialEndDate: user.trial_end_date,
-        },
+      const verificationToken = jwt.sign({ userId: user.id }, JWT_SECRET, {
+        expiresIn: "1d",
       });
+
+      try {
+        await sendVerificationEmail(email, verificationToken);
+        res.status(201).json({
+          message: "User registered successfully. Verification email sent.",
+          user: {
+            id: user.id,
+            username: user.username,
+            email: user.email,
+            image: user.image,
+            subscription: user.subscription,
+            trialEndDate: user.trial_end_date,
+          },
+        });
+        console.log("email sent");
+      } catch (emailError) {
+        console.error("Error sending verification email:", emailError);
+        res.status(500).json({
+          message: "User registered, but failed to send verification email",
+        });
+      }
     } catch (error) {
       console.error("Error in registration:", error);
       res.status(500).json({ message: "Error registering user" });
@@ -296,5 +308,55 @@ export async function getLocations(req: Request, res: Response): Promise<void> {
   } catch (error) {
     console.error("Error fetching locations:", error);
     res.status(500).json({ message: "Server error" });
+  }
+}
+
+export async function verifyEmail(req: Request, res: Response): Promise<void> {
+  try {
+    const { token } = req.body;
+
+    if (!token) {
+      res.status(400).json({ success: false, message: "Token is required" });
+      return;
+    }
+
+    const decoded = jwt.verify(token, JWT_SECRET) as { userId: string };
+
+    if (!decoded || !decoded.userId) {
+      res.status(400).json({ success: false, message: "Invalid token" });
+      return;
+    }
+
+    const userId = parseInt(decoded.userId, 10);
+
+    if (isNaN(userId)) {
+      res
+        .status(400)
+        .json({ success: false, message: "Invalid user ID in token" });
+      return;
+    }
+
+    const user = await userService.getUserById(userId);
+
+    if (!user) {
+      res.status(404).json({ success: false, message: "User not found" });
+      return;
+    }
+
+    if (user.isVerified) {
+      res
+        .status(400)
+        .json({ success: false, message: "User already verified" });
+      return;
+    }
+
+    await userService.updateUser(userId, { isVerified: true });
+
+    res
+      .status(200)
+      .json({ success: true, message: "Email verified successfully" });
+  } catch (error) {
+    console.error("Error verifying email:", error);
+    res.status(500).json({ success: false, message: "Error verifying email" });
   }
 }

@@ -28,9 +28,30 @@ export async function getUserByEmail(email: string): Promise<User | null> {
 }
 
 export async function getUserById(id: number): Promise<User | null> {
-  const query = `SELECT id, username, email, image, subscription, trial_end_date FROM users WHERE id = $1`;
-  const { rows } = await pool.query(query, [id]);
-  return rows[0] || null;
+  if (isNaN(id) || id <= 0) {
+    console.error("Invalid user ID:", id);
+    throw new Error("Invalid user ID");
+  }
+
+  const query = `
+    SELECT id, username, email, image, subscription, trial_end_date
+    FROM users
+    WHERE id = $1
+  `;
+
+  try {
+    const { rows } = await pool.query(query, [id]);
+
+    if (rows.length === 0) {
+      console.warn(`User with ID ${id} not found`);
+      return null;
+    }
+
+    return rows[0] as User;
+  } catch (error) {
+    console.error("Error fetching user by ID:", error);
+    throw new Error("Database query failed");
+  }
 }
 
 export async function upgradeSubscription(

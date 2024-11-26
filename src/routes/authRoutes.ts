@@ -16,6 +16,7 @@ router.post(
   authController.createStripeCheckoutSession
 );
 router.get("/locations", locationController.getLocations);
+router.post("/verify-email", authController.verifyEmail);
 
 router.get(
   "/profile",
