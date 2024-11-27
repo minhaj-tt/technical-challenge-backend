@@ -16,6 +16,7 @@ declare module "express-session" {
       email: string;
       subscription: string | undefined;
       trialEndDate: Date | undefined;
+      image: string | undefined | null;
     };
   }
 }
@@ -121,6 +122,7 @@ export async function login(req: Request, res: Response): Promise<void> {
     }
 
     const user = await userService.getUserByEmail(email);
+
     if (!user) {
       res.status(400).json({ message: "Invalid email" });
       return;
@@ -142,7 +144,10 @@ export async function login(req: Request, res: Response): Promise<void> {
       email: user.email,
       subscription: user.subscription,
       trialEndDate: user.trial_end_date,
+      image: user.image,
     };
+
+    console.log("req.session.user ", req.session);
 
     res.cookie("authToken", token, {
       httpOnly: true,
@@ -360,3 +365,57 @@ export async function verifyEmail(req: Request, res: Response): Promise<void> {
     res.status(500).json({ success: false, message: "Error verifying email" });
   }
 }
+
+export const updateProfile = [
+  upload.single("image"),
+  async (req: Request, res: Response): Promise<void> => {
+    try {
+      const { id } = req.params;
+      const { username } = req.body;
+
+      if (!id || !username) {
+        res.status(400).json({ message: "User ID and username are required" });
+        return;
+      }
+
+      const userId = parseInt(id, 10);
+
+      if (isNaN(userId)) {
+        res.status(400).json({ message: "Invalid user ID" });
+        return;
+      }
+
+      const user = await userService.getUserById(userId);
+
+      if (!user) {
+        res.status(404).json({ message: "User not found" });
+        return;
+      }
+
+      const updatedFields: { username: string; image?: string } = { username };
+
+      if (req.file) {
+        updatedFields.image = req.file.path;
+      }
+
+      const updatedUser = await userService.updateUser(userId, updatedFields);
+
+      if (!updatedUser) {
+        res.status(500).json({ message: "Error updating profile" });
+        return;
+      }
+
+      res.status(200).json({
+        message: "Profile updated successfully",
+        user: {
+          id: updatedUser.id,
+          username: updatedUser.username,
+          image: updatedUser.image,
+        },
+      });
+    } catch (error) {
+      console.error("Error updating profile:", error);
+      res.status(500).json({ message: "Error updating profile" });
+    }
+  },
+];

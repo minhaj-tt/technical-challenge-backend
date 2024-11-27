@@ -38,7 +38,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(
   session({
-    secret: "your_session_secret",
+    secret: "fcd73615efdf1e5483def1256c0b0a31a5b45e7508aeb43aec5e8008598f67ea",
     resave: false,
     saveUninitialized: true,
     cookie: { secure: false, httpOnly: true },

@@ -17,13 +17,6 @@ router.post(
 );
 router.get("/locations", locationController.getLocations);
 router.post("/verify-email", authController.verifyEmail);
-
-router.get(
-  "/profile",
-  authenticateToken,
-  async (req: Request, res: Response) => {
-    res.send("Protected User Profile");
-  }
-);
+router.put("/profile/:id", authController.updateProfile);
 
 export default router;
