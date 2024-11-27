@@ -2,8 +2,6 @@ import express, { Request, Response } from "express";
 import * as authController from "../controllers/authController";
 import * as locationController from "../controllers/locationController";
 
-import { authenticateToken } from "../middleware/authMiddleware";
-
 const router = express.Router();
 
 router.post("/register", authController.register);

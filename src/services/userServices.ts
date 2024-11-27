@@ -2,19 +2,32 @@ import pool from "../db";
 import { User } from "../models/users";
 import moment from "moment";
 
-export async function registerUser(user: User): Promise<User | null> {
-  const trialEndDate = moment().add(7, "days").toDate();
+export async function registerUser(user: {
+  username: string;
+  email: string;
+  password: string;
+  phone_number: string;
+  address: string;
+  dob: Date;
+  image: string | null;
+  subscription: string;
+  trialEndDate: Date;
+}): Promise<User | null> {
   const query = `
-    INSERT INTO users (username, email, password, image, subscription, trial_end_date)
-    VALUES ($1, $2, $3, $4, $5, $6) RETURNING id, username, email, image, subscription, trial_end_date
+    INSERT INTO users (username, email, password, phone_number, address, dob, image, subscription, trial_end_date)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+    RETURNING id, username, email, phone_number AS "phoneNumber", address, dob, image, subscription, trial_end_date AS "trialEndDate"
   `;
   const values = [
     user.username,
     user.email,
     user.password,
+    user.phone_number,
+    user.address,
+    user.dob,
     user.image,
-    "free_trial",
-    trialEndDate,
+    user.subscription,
+    user.trialEndDate,
   ];
 
   const { rows } = await pool.query(query, values);
@@ -135,7 +148,6 @@ export async function updateUser(
       throw new Error("No fields provided for update");
     }
 
-    // Add the userId as the last value
     values.push(userId);
 
     const query = `

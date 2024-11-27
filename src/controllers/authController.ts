@@ -17,6 +17,9 @@ declare module "express-session" {
       subscription: string | undefined;
       trialEndDate: Date | undefined;
       image: string | undefined | null;
+      phone_number: number;
+      dob: any;
+      address: any;
     };
   }
 }
@@ -45,11 +48,21 @@ export const register = [
   upload.single("image"),
   async (req: Request, res: Response): Promise<void> => {
     try {
-      const { username, email, password } = req.body;
-      if (!username || !email || !password) {
-        res
-          .status(400)
-          .json({ message: "Username, email, and password are required" });
+      const { username, email, password, phone_number, address, dob } =
+        req.body;
+
+      if (
+        !username ||
+        !email ||
+        !password ||
+        !phone_number ||
+        !address ||
+        !dob
+      ) {
+        res.status(400).json({
+          message:
+            "All fields (username, email, password, phone number, address, and DOB) are required",
+        });
         return;
       }
 
@@ -61,19 +74,18 @@ export const register = [
 
       const hashedPassword = await bcrypt.hash(password, 10);
       const image = req.file ? req.file.path : null;
-
-      const trial_end_date = moment().add(7, "days").toDate();
+      const trialEndDate = moment().add(7, "days").toDate();
 
       const user = await userService.registerUser({
         username,
         email,
         password: hashedPassword,
+        phone_number,
+        address,
+        dob,
         image,
         subscription: "free_trial",
-        trial_end_date,
-        save: function (): unknown {
-          throw new Error("Function not implemented.");
-        },
+        trialEndDate,
       });
 
       if (!user) {
@@ -93,12 +105,14 @@ export const register = [
             id: user.id,
             username: user.username,
             email: user.email,
+            phoneNumber: user.phone_number,
+            address: user.address,
+            dob: user.dob,
             image: user.image,
             subscription: user.subscription,
             trialEndDate: user.trial_end_date,
           },
         });
-        console.log("email sent");
       } catch (emailError) {
         console.error("Error sending verification email:", emailError);
         res.status(500).json({
@@ -123,6 +137,8 @@ export async function login(req: Request, res: Response): Promise<void> {
 
     const user = await userService.getUserByEmail(email);
 
+    console.log("user", user);
+
     if (!user) {
       res.status(400).json({ message: "Invalid email" });
       return;
@@ -145,6 +161,9 @@ export async function login(req: Request, res: Response): Promise<void> {
       subscription: user.subscription,
       trialEndDate: user.trial_end_date,
       image: user.image,
+      phone_number: user.phone_number,
+      dob: user.dob,
+      address: user.address,
     };
 
     console.log("req.session.user ", req.session);

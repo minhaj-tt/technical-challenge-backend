@@ -1,4 +1,7 @@
 export interface User {
+  dob: any;
+  address: any;
+  phone_number: any;
   save(): unknown;
   id?: number;
   username: string;
