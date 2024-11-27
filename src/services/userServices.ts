@@ -154,7 +154,7 @@ export async function updateUser(
       UPDATE users
       SET ${fields.join(", ")}
       WHERE id = $${index}
-      RETURNING id, username, email, image, subscription, trial_end_date
+      RETURNING id, username, email, image, subscription, trial_end_date, dob, address, phone_number
     `;
 
     const { rows } = await pool.query(query, values);

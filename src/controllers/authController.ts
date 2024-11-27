@@ -137,8 +137,6 @@ export async function login(req: Request, res: Response): Promise<void> {
 
     const user = await userService.getUserByEmail(email);
 
-    console.log("user", user);
-
     if (!user) {
       res.status(400).json({ message: "Invalid email" });
       return;
@@ -165,8 +163,6 @@ export async function login(req: Request, res: Response): Promise<void> {
       dob: user.dob,
       address: user.address,
     };
-
-    console.log("req.session.user ", req.session);
 
     res.cookie("authToken", token, {
       httpOnly: true,
@@ -390,7 +386,7 @@ export const updateProfile = [
   async (req: Request, res: Response): Promise<void> => {
     try {
       const { id } = req.params;
-      const { username } = req.body;
+      const { username, dob, address, phone_number } = req.body;
 
       if (!id || !username) {
         res.status(400).json({ message: "User ID and username are required" });
@@ -411,11 +407,18 @@ export const updateProfile = [
         return;
       }
 
-      const updatedFields: { username: string; image?: string } = { username };
+      const updatedFields: {
+        username: string;
+        dob?: any;
+        address?: any;
+        phone_number?: number;
+        image?: string;
+      } = { username };
 
-      if (req.file) {
-        updatedFields.image = req.file.path;
-      }
+      if (dob) updatedFields.dob = dob;
+      if (address) updatedFields.address = address;
+      if (phone_number) updatedFields.phone_number = phone_number;
+      if (req.file) updatedFields.image = req.file.path;
 
       const updatedUser = await userService.updateUser(userId, updatedFields);
 
@@ -424,12 +427,17 @@ export const updateProfile = [
         return;
       }
 
+      console.log("updatedUser", updatedUser);
+
       res.status(200).json({
         message: "Profile updated successfully",
         user: {
           id: updatedUser.id,
           username: updatedUser.username,
           image: updatedUser.image,
+          dob: updatedUser.dob,
+          address: updatedUser.address,
+          phone_number: updatedUser.phone_number,
         },
       });
     } catch (error) {
