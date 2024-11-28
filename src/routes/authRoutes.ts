@@ -16,5 +16,6 @@ router.post(
 router.get("/locations", locationController.getLocations);
 router.post("/verify-email", authController.verifyEmail);
 router.put("/profile/:id", authController.updateProfile);
+router.put("/update-password/:id", authController.updatePassword);
 
 export default router;

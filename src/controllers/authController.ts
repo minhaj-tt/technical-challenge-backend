@@ -446,3 +446,58 @@ export const updateProfile = [
     }
   },
 ];
+
+export async function updatePassword(
+  req: Request,
+  res: Response
+): Promise<void> {
+  try {
+    const userId = parseInt(req.params.id, 10);
+    const { oldPassword, newPassword } = req.body;
+
+    if (!userId || !oldPassword || !newPassword) {
+      res.status(400).json({
+        message: "User ID, old password, and new password are required",
+      });
+      return;
+    }
+
+    if (newPassword.length < 6) {
+      res
+        .status(400)
+        .json({ message: "New password must be at least 6 characters long" });
+      return;
+    }
+
+    const user = await userService.getUserById(userId);
+
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+      return;
+    }
+
+    // const isOldPasswordValid = await bcrypt.compare(oldPassword, oldPassword);
+    // if (!isOldPasswordValid) {
+    //   res.status(400).json({ message: "Old password is incorrect" });
+    //   return;
+    // }
+
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+    const updatedUser = await userService.updateUser(userId, {
+      password: hashedNewPassword,
+    });
+
+    if (!updatedUser) {
+      res.status(500).json({ message: "Error updating password" });
+      return;
+    }
+
+    res.status(200).json({
+      message: "Password updated successfully",
+    });
+  } catch (error) {
+    console.error("Error updating password:", error);
+    res.status(500).json({ message: "Error updating password" });
+  }
+}
