@@ -53,3 +53,50 @@ export const updateUser = async (
   const { rows } = await db.query(query, [first_name, last_name, id]);
   return rows[0];
 };
+
+export const updateUser_ = async (
+  id: string,
+  firstName?: string,
+  lastName?: string,
+  role?: string
+): Promise<User | null> => {
+  if (role && !["admin", "merchant", "customer"].includes(role)) {
+    throw new Error("Invalid role");
+  }
+
+  const fieldsToUpdate: string[] = [];
+  const values: any[] = [];
+  let queryIndex = 1;
+
+  if (firstName) {
+    fieldsToUpdate.push(`first_name = $${queryIndex++}`);
+    values.push(firstName);
+  }
+
+  if (lastName) {
+    fieldsToUpdate.push(`last_name = $${queryIndex++}`);
+    values.push(lastName);
+  }
+
+  if (role) {
+    fieldsToUpdate.push(`role = $${queryIndex++}`);
+    values.push(role);
+  }
+
+  if (fieldsToUpdate.length === 0) {
+    throw new Error("No fields to update");
+  }
+
+  values.push(id);
+
+  const query = `
+    UPDATE users
+    SET ${fieldsToUpdate.join(", ")}, updated_at = NOW()
+    WHERE id = $${queryIndex}
+    RETURNING id, first_name, last_name, role, created_at, updated_at;
+  `;
+
+  const { rows } = await db.query(query, values);
+
+  return rows.length > 0 ? rows[0] : null;
+};

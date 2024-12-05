@@ -4,6 +4,7 @@ import {
   getUserProfile,
   updateUserProfile,
 } from "../services/userServices";
+import { updateUser_ } from "../models/users";
 
 export const getProfile = async (
   req: Request,
@@ -61,5 +62,36 @@ export const getUsers = async (req: Request, res: Response): Promise<void> => {
     res.status(200).json({ users });
   } catch (error) {
     res.status(500).json({ error: "Server error" });
+  }
+};
+
+export const updateUserByAdmin = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const { id } = req.params;
+  const { first_name, last_name, role } = req.body;
+
+  const validRoles = ["merchant", "customer"];
+  if (role && !validRoles.includes(role)) {
+    res.status(400).json({
+      error: "Invalid role. Allowed roles are 'merchant' and 'customer'.",
+    });
+    return;
+  }
+
+  try {
+    const updatedUser = await updateUser_(id, first_name, last_name, role);
+
+    if (!updatedUser) {
+      res.status(404).json({ error: "User not found" });
+      return;
+    }
+
+    res
+      .status(200)
+      .json({ message: "User updated successfully", user: updatedUser });
+  } catch (error) {
+    res.status(500).json({ error: error || "Server error" });
   }
 };
