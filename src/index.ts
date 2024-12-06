@@ -5,6 +5,7 @@ import pool from "./db";
 import authRoutes from "./routes/authRoutes";
 import userRoutes from "./routes/userRoutes";
 import adminRoutes from "./routes/adminRoutes";
+import storeRoutes from "./routes/storeRoutes";
 import bodyParser from "body-parser";
 import session from "express-session";
 import cookieParser from "cookie-parser";
@@ -16,8 +17,8 @@ const port = process.env.PORT || 3000;
 
 app.use(
   cors({
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST", "PUT", "DELETE"],
+    origin: "http://localhost:3001",
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
     allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
     credentials: true,
   })
@@ -38,6 +39,7 @@ app.use(
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api", storeRoutes);
 
 app.get("/", (_req, res) => {
   res.send("Welcome to the Backend Server!");

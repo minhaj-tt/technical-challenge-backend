@@ -89,11 +89,12 @@ export const updateUser_ = async (
 
   values.push(id);
 
+  // Construct the SQL query
   const query = `
     UPDATE users
     SET ${fieldsToUpdate.join(", ")}, updated_at = NOW()
     WHERE id = $${queryIndex}
-    RETURNING id, first_name, last_name, role, created_at, updated_at;
+    RETURNING id, first_name, last_name, role, updated_at;
   `;
 
   const { rows } = await db.query(query, values);
