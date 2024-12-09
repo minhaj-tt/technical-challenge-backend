@@ -31,6 +31,7 @@
   "dependencies": {
     "@grpc/grpc-js": "^1.12.4",
     "@grpc/proto-loader": "^0.7.13",
+    "@improbable-eng/grpc-web": "^0.15.0",
     "@types/multer": "^1.4.12",
     "@types/uuid": "^10.0.0",
     "axios": "^1.7.7",

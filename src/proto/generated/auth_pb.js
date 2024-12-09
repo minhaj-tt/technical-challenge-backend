@@ -11,7 +11,7 @@
 /* eslint-disable */
 // @ts-nocheck
 
-var jspb = require("google-protobuf");
+import jspb, { Message, BinaryReader, BinaryWriter } from "google-protobuf";
 var goog = jspb;
 var global = function () {
   if (this) {
@@ -44,9 +44,9 @@ goog.exportSymbol("proto.auth.RegisterResponse", null, global);
  * @constructor
  */
 proto.auth.LoginRequest = function (opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.auth.LoginRequest, jspb.Message);
+goog.inherits(proto.auth.LoginRequest, Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
@@ -65,9 +65,9 @@ if (goog.DEBUG && !COMPILED) {
  * @constructor
  */
 proto.auth.LoginResponse = function (opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.auth.LoginResponse, jspb.Message);
+goog.inherits(proto.auth.LoginResponse, Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
@@ -86,9 +86,9 @@ if (goog.DEBUG && !COMPILED) {
  * @constructor
  */
 proto.auth.RegisterRequest = function (opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.auth.RegisterRequest, jspb.Message);
+goog.inherits(proto.auth.RegisterRequest, Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
@@ -107,9 +107,9 @@ if (goog.DEBUG && !COMPILED) {
  * @constructor
  */
 proto.auth.RegisterResponse = function (opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  Message.initialize(this, opt_data, 0, -1, null, null);
 };
-goog.inherits(proto.auth.RegisterResponse, jspb.Message);
+goog.inherits(proto.auth.RegisterResponse, Message);
 if (goog.DEBUG && !COMPILED) {
   /**
    * @public
@@ -118,7 +118,7 @@ if (goog.DEBUG && !COMPILED) {
   proto.auth.RegisterResponse.displayName = "proto.auth.RegisterResponse";
 }
 
-if (jspb.Message.GENERATE_TO_OBJECT) {
+if (Message.GENERATE_TO_OBJECT) {
   /**
    * Creates an object representation of this proto.
    * Field names that are reserved in JavaScript and will be renamed to pb_name.
@@ -147,8 +147,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
   proto.auth.LoginRequest.toObject = function (includeInstance, msg) {
     var f,
       obj = {
-        username: jspb.Message.getFieldWithDefault(msg, 1, ""),
-        password: jspb.Message.getFieldWithDefault(msg, 2, ""),
+        username: Message.getFieldWithDefault(msg, 1, ""),
+        password: Message.getFieldWithDefault(msg, 2, ""),
       };
 
     if (includeInstance) {
@@ -164,7 +164,7 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  * @return {!proto.auth.LoginRequest}
  */
 proto.auth.LoginRequest.deserializeBinary = function (bytes) {
-  var reader = new jspb.BinaryReader(bytes);
+  var reader = new BinaryReader(bytes);
   var msg = new proto.auth.LoginRequest();
   return proto.auth.LoginRequest.deserializeBinaryFromReader(msg, reader);
 };
@@ -204,7 +204,7 @@ proto.auth.LoginRequest.deserializeBinaryFromReader = function (msg, reader) {
  * @return {!Uint8Array}
  */
 proto.auth.LoginRequest.prototype.serializeBinary = function () {
-  var writer = new jspb.BinaryWriter();
+  var writer = new BinaryWriter();
   proto.auth.LoginRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
@@ -233,7 +233,7 @@ proto.auth.LoginRequest.serializeBinaryToWriter = function (message, writer) {
  * @return {string}
  */
 proto.auth.LoginRequest.prototype.getUsername = function () {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
+  return /** @type {string} */ (Message.getFieldWithDefault(this, 1, ""));
 };
 
 /**
@@ -241,7 +241,7 @@ proto.auth.LoginRequest.prototype.getUsername = function () {
  * @return {!proto.auth.LoginRequest} returns this
  */
 proto.auth.LoginRequest.prototype.setUsername = function (value) {
-  return jspb.Message.setProto3StringField(this, 1, value);
+  return Message.setProto3StringField(this, 1, value);
 };
 
 /**
@@ -249,7 +249,7 @@ proto.auth.LoginRequest.prototype.setUsername = function (value) {
  * @return {string}
  */
 proto.auth.LoginRequest.prototype.getPassword = function () {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+  return /** @type {string} */ (Message.getFieldWithDefault(this, 2, ""));
 };
 
 /**
@@ -257,10 +257,10 @@ proto.auth.LoginRequest.prototype.getPassword = function () {
  * @return {!proto.auth.LoginRequest} returns this
  */
 proto.auth.LoginRequest.prototype.setPassword = function (value) {
-  return jspb.Message.setProto3StringField(this, 2, value);
+  return Message.setProto3StringField(this, 2, value);
 };
 
-if (jspb.Message.GENERATE_TO_OBJECT) {
+if (Message.GENERATE_TO_OBJECT) {
   /**
    * Creates an object representation of this proto.
    * Field names that are reserved in JavaScript and will be renamed to pb_name.
@@ -289,8 +289,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
   proto.auth.LoginResponse.toObject = function (includeInstance, msg) {
     var f,
       obj = {
-        token: jspb.Message.getFieldWithDefault(msg, 1, ""),
-        message: jspb.Message.getFieldWithDefault(msg, 2, ""),
+        token: Message.getFieldWithDefault(msg, 1, ""),
+        message: Message.getFieldWithDefault(msg, 2, ""),
       };
 
     if (includeInstance) {
@@ -306,7 +306,7 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  * @return {!proto.auth.LoginResponse}
  */
 proto.auth.LoginResponse.deserializeBinary = function (bytes) {
-  var reader = new jspb.BinaryReader(bytes);
+  var reader = new BinaryReader(bytes);
   var msg = new proto.auth.LoginResponse();
   return proto.auth.LoginResponse.deserializeBinaryFromReader(msg, reader);
 };
@@ -346,7 +346,7 @@ proto.auth.LoginResponse.deserializeBinaryFromReader = function (msg, reader) {
  * @return {!Uint8Array}
  */
 proto.auth.LoginResponse.prototype.serializeBinary = function () {
-  var writer = new jspb.BinaryWriter();
+  var writer = new BinaryWriter();
   proto.auth.LoginResponse.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
@@ -375,7 +375,7 @@ proto.auth.LoginResponse.serializeBinaryToWriter = function (message, writer) {
  * @return {string}
  */
 proto.auth.LoginResponse.prototype.getToken = function () {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
+  return /** @type {string} */ (Message.getFieldWithDefault(this, 1, ""));
 };
 
 /**
@@ -383,7 +383,7 @@ proto.auth.LoginResponse.prototype.getToken = function () {
  * @return {!proto.auth.LoginResponse} returns this
  */
 proto.auth.LoginResponse.prototype.setToken = function (value) {
-  return jspb.Message.setProto3StringField(this, 1, value);
+  return Message.setProto3StringField(this, 1, value);
 };
 
 /**
@@ -391,7 +391,7 @@ proto.auth.LoginResponse.prototype.setToken = function (value) {
  * @return {string}
  */
 proto.auth.LoginResponse.prototype.getMessage = function () {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+  return /** @type {string} */ (Message.getFieldWithDefault(this, 2, ""));
 };
 
 /**
@@ -399,10 +399,10 @@ proto.auth.LoginResponse.prototype.getMessage = function () {
  * @return {!proto.auth.LoginResponse} returns this
  */
 proto.auth.LoginResponse.prototype.setMessage = function (value) {
-  return jspb.Message.setProto3StringField(this, 2, value);
+  return Message.setProto3StringField(this, 2, value);
 };
 
-if (jspb.Message.GENERATE_TO_OBJECT) {
+if (Message.GENERATE_TO_OBJECT) {
   /**
    * Creates an object representation of this proto.
    * Field names that are reserved in JavaScript and will be renamed to pb_name.
@@ -433,9 +433,9 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
   proto.auth.RegisterRequest.toObject = function (includeInstance, msg) {
     var f,
       obj = {
-        username: jspb.Message.getFieldWithDefault(msg, 1, ""),
-        password: jspb.Message.getFieldWithDefault(msg, 2, ""),
-        email: jspb.Message.getFieldWithDefault(msg, 3, ""),
+        username: Message.getFieldWithDefault(msg, 1, ""),
+        password: Message.getFieldWithDefault(msg, 2, ""),
+        email: Message.getFieldWithDefault(msg, 3, ""),
       };
 
     if (includeInstance) {
@@ -451,7 +451,7 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  * @return {!proto.auth.RegisterRequest}
  */
 proto.auth.RegisterRequest.deserializeBinary = function (bytes) {
-  var reader = new jspb.BinaryReader(bytes);
+  var reader = new BinaryReader(bytes);
   var msg = new proto.auth.RegisterRequest();
   return proto.auth.RegisterRequest.deserializeBinaryFromReader(msg, reader);
 };
@@ -498,7 +498,7 @@ proto.auth.RegisterRequest.deserializeBinaryFromReader = function (
  * @return {!Uint8Array}
  */
 proto.auth.RegisterRequest.prototype.serializeBinary = function () {
-  var writer = new jspb.BinaryWriter();
+  var writer = new BinaryWriter();
   proto.auth.RegisterRequest.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
@@ -534,7 +534,7 @@ proto.auth.RegisterRequest.serializeBinaryToWriter = function (
  * @return {string}
  */
 proto.auth.RegisterRequest.prototype.getUsername = function () {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
+  return /** @type {string} */ (Message.getFieldWithDefault(this, 1, ""));
 };
 
 /**
@@ -542,7 +542,7 @@ proto.auth.RegisterRequest.prototype.getUsername = function () {
  * @return {!proto.auth.RegisterRequest} returns this
  */
 proto.auth.RegisterRequest.prototype.setUsername = function (value) {
-  return jspb.Message.setProto3StringField(this, 1, value);
+  return Message.setProto3StringField(this, 1, value);
 };
 
 /**
@@ -550,7 +550,7 @@ proto.auth.RegisterRequest.prototype.setUsername = function (value) {
  * @return {string}
  */
 proto.auth.RegisterRequest.prototype.getPassword = function () {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+  return /** @type {string} */ (Message.getFieldWithDefault(this, 2, ""));
 };
 
 /**
@@ -558,7 +558,7 @@ proto.auth.RegisterRequest.prototype.getPassword = function () {
  * @return {!proto.auth.RegisterRequest} returns this
  */
 proto.auth.RegisterRequest.prototype.setPassword = function (value) {
-  return jspb.Message.setProto3StringField(this, 2, value);
+  return Message.setProto3StringField(this, 2, value);
 };
 
 /**
@@ -566,7 +566,7 @@ proto.auth.RegisterRequest.prototype.setPassword = function (value) {
  * @return {string}
  */
 proto.auth.RegisterRequest.prototype.getEmail = function () {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 3, ""));
+  return /** @type {string} */ (Message.getFieldWithDefault(this, 3, ""));
 };
 
 /**
@@ -574,10 +574,10 @@ proto.auth.RegisterRequest.prototype.getEmail = function () {
  * @return {!proto.auth.RegisterRequest} returns this
  */
 proto.auth.RegisterRequest.prototype.setEmail = function (value) {
-  return jspb.Message.setProto3StringField(this, 3, value);
+  return Message.setProto3StringField(this, 3, value);
 };
 
-if (jspb.Message.GENERATE_TO_OBJECT) {
+if (Message.GENERATE_TO_OBJECT) {
   /**
    * Creates an object representation of this proto.
    * Field names that are reserved in JavaScript and will be renamed to pb_name.
@@ -608,8 +608,8 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
   proto.auth.RegisterResponse.toObject = function (includeInstance, msg) {
     var f,
       obj = {
-        userid: jspb.Message.getFieldWithDefault(msg, 1, ""),
-        message: jspb.Message.getFieldWithDefault(msg, 2, ""),
+        userid: Message.getFieldWithDefault(msg, 1, ""),
+        message: Message.getFieldWithDefault(msg, 2, ""),
       };
 
     if (includeInstance) {
@@ -625,7 +625,7 @@ if (jspb.Message.GENERATE_TO_OBJECT) {
  * @return {!proto.auth.RegisterResponse}
  */
 proto.auth.RegisterResponse.deserializeBinary = function (bytes) {
-  var reader = new jspb.BinaryReader(bytes);
+  var reader = new BinaryReader(bytes);
   var msg = new proto.auth.RegisterResponse();
   return proto.auth.RegisterResponse.deserializeBinaryFromReader(msg, reader);
 };
@@ -668,7 +668,7 @@ proto.auth.RegisterResponse.deserializeBinaryFromReader = function (
  * @return {!Uint8Array}
  */
 proto.auth.RegisterResponse.prototype.serializeBinary = function () {
-  var writer = new jspb.BinaryWriter();
+  var writer = new BinaryWriter();
   proto.auth.RegisterResponse.serializeBinaryToWriter(this, writer);
   return writer.getResultBuffer();
 };
@@ -700,7 +700,7 @@ proto.auth.RegisterResponse.serializeBinaryToWriter = function (
  * @return {string}
  */
 proto.auth.RegisterResponse.prototype.getUserid = function () {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 1, ""));
+  return /** @type {string} */ (Message.getFieldWithDefault(this, 1, ""));
 };
 
 /**
@@ -708,7 +708,7 @@ proto.auth.RegisterResponse.prototype.getUserid = function () {
  * @return {!proto.auth.RegisterResponse} returns this
  */
 proto.auth.RegisterResponse.prototype.setUserid = function (value) {
-  return jspb.Message.setProto3StringField(this, 1, value);
+  return Message.setProto3StringField(this, 1, value);
 };
 
 /**
@@ -716,7 +716,7 @@ proto.auth.RegisterResponse.prototype.setUserid = function (value) {
  * @return {string}
  */
 proto.auth.RegisterResponse.prototype.getMessage = function () {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 2, ""));
+  return /** @type {string} */ (Message.getFieldWithDefault(this, 2, ""));
 };
 
 /**
@@ -724,7 +724,7 @@ proto.auth.RegisterResponse.prototype.getMessage = function () {
  * @return {!proto.auth.RegisterResponse} returns this
  */
 proto.auth.RegisterResponse.prototype.setMessage = function (value) {
-  return jspb.Message.setProto3StringField(this, 2, value);
+  return Message.setProto3StringField(this, 2, value);
 };
 
 goog.object.extend(exports, proto.auth);
