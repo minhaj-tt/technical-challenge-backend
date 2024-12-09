@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package user;
+
+// User service definition
+service UserService {
+  // Get user profile
+  rpc GetUserProfile (GetUserProfileRequest) returns (GetUserProfileResponse);
+
+  // Update user profile
+  rpc UpdateUserProfile (UpdateUserProfileRequest) returns (UpdateUserProfileResponse);
+
+  // Get all users
+  rpc GetAllUsers (GetAllUsersRequest) returns (GetAllUsersResponse);
+
+  // Update user by admin
+  rpc UpdateUserByAdmin (UpdateUserByAdminRequest) returns (UpdateUserByAdminResponse);
+}

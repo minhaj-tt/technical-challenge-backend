@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package store;
+
+// store.proto
+syntax = "proto3";
+
+// Store entity
+message Store {
+  string id = 1;
+  string name = 2;
+  string merchant_id = 3;
+  string description = 4;
+  bool active = 5;
+  string created_at = 6; // Timestamp as string (can be converted to timestamp if needed)
+}
+
+// Request for creating a new store
+message CreateStoreRequest {
+  string name = 1;
+  string merchant_id = 2;
+  string description = 3;
+  bool active = 4;
+}
+
+// Response after creating a store
+message CreateStoreResponse {
+  Store store = 1;
+}
+
+// Request to fetch stores by merchant ID
+message GetStoresRequest {
+  string merchant_id = 1;
+}
+
+// Response with the list of stores
+message GetStoresResponse {
+  repeated Store stores = 1;
+}
+
+// Request to update a store
+message UpdateStoreRequest {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+}
+
+// Response after updating a store
+message UpdateStoreResponse {
+  Store store = 1;
+}
