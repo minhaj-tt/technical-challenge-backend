@@ -1,8 +1,8 @@
 //Binary Communication Method
 
-import { StoreServiceClient } from "../proto/generated/store_grpc_pb.js";
-import { CreateStoreRequest } from "../proto/generated/store_pb";
-import grpc from "@grpc/grpc-js";
+const grpc = require("@grpc/grpc-js");
+const { StoreServiceClient } = require("../proto/generated/store_grpc_pb.js");
+const { CreateStoreRequest } = require("../proto/generated/store_pb");
 
 // Create a new store
 const createStoreRequest = new CreateStoreRequest();

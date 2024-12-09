@@ -1,18 +1,25 @@
 import grpc from "@grpc/grpc-js";
-import protoLoader from "../protoLoader";
+import * as protoLoader from "@grpc/proto-loader";
 import authServer from "./authServer";
 
 const PORT = 50051;
 const server = new grpc.Server();
 
-// Load Protobuf
-const authProto = protoLoader("src/proto/auth.proto");
+const PROTO_PATH = "src/proto/auth.proto";
 
-// Add services
-server.addService(
-  authProto.auth.AuthService.service,
-  authServer.implementation
-);
+const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
+  keepCase: true,
+  longs: String,
+  enums: String,
+  defaults: true,
+  oneofs: true,
+});
+
+const proto = grpc.loadPackageDefinition(packageDefinition) as grpc.GrpcObject;
+
+const authProto = proto.auth as { AuthService: grpc.ServiceClientConstructor };
+
+server.addService(authProto.AuthService.service, authServer.implementation);
 
 server.bindAsync(
   `0.0.0.0:${PORT}`,

@@ -1,5 +1,5 @@
 import grpc from "@grpc/grpc-js";
-import { AuthService } from "../proto/generated/auth_pb.js";
+import { AuthService } from "../proto/generated/auth_pb";
 
 const authServiceImplementation = {
   Login: (call: any, callback: any) => {
@@ -18,7 +18,6 @@ const authServiceImplementation = {
   Register: (call: any, callback: any) => {
     const { username, password, email } = call.request;
 
-    // Mock user creation
     callback(null, {
       userId: "12345",
       message: "User registered successfully",
